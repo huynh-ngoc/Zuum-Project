@@ -1,4 +1,4 @@
-#add 3 after pip if u have pip3 version
+# add 3 after pip if u have pip3 version
 # Install in terminal -> pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 
@@ -43,9 +43,7 @@ def extractEmails(service, label_id):
         for message in messages:
             msg = service.users().messages().get(
                 userId="me", id=message["id"]).execute()
-            #Necessary dont delete it even though it is duplicate
-            msg = service.users().messages().get(
-                userId="me", id=message["id"]).execute()
+
             headers = msg["payload"]["headers"]
             # Find the subject header in the email headers
             subject = next(
