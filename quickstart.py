@@ -35,24 +35,21 @@ def extractEmails(service, label_id):
         # Call the Gmail API
         # Retrieve messages from given label
 
-        results = service.users().messages().list(
-            userId="me", labelIds=[label_id]).execute()
+        results = service.users().messages().list(userId="me", labelIds=[label_id]).execute()
         messages = results.get("messages", [])
 
         # Retrieve and print the content of each message
         for message in messages:
-            msg = service.users().messages().get(
-                userId="me", id=message["id"]).execute()
+            msg = service.users().messages().get(userId="me", id=message["id"], format='full').execute()
 
             headers = msg["payload"]["headers"]
             # Find the subject header in the email headers
-            subject = next(
-                (header["value"] for header in headers if header["name"] == "Subject"), None)
-            if subject:
-                print("Subject:", subject)
-            else:
-                print("Subject not found")
-
+            subject = next((header["value"] for header in headers if header["name"] == "Subject"), "Subject not found")
+            from_email = next((header["value"] for header in headers if header["name"].lower() == "from"), "Sender not found")
+            date = next((header["value"] for header in headers if header["name"].lower() == "date"), "Date not found")
+            print(f"Subject: {subject}")
+            print(f"From: {from_email}")
+            print(f"Date: {date}")
             print("Message ID:", message["id"])
             # Print snippet of the message
             print("Message Text:", msg["snippet"])
