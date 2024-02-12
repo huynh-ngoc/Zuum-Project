@@ -10,15 +10,16 @@
     2.2. Identify relevant entities such as dates, locations, and other key information using named entity recognition (NER) or regex patterns.
     2.3. Extract pickup and drop-off dates, locations, truck type, weight of shipment, and any other relevant details from the parsed email content.
     2.4. Populate a dictionary with the extracted information.
+    2.5 Generate more data to fetch to the model. 
 
-3. Define a function to check for missing information:
+4. Define a function to check for missing information:
     - Input: Extracted information dictionary.
     - Output: List of missing information.
 
     3.1. Check if essential information (e.g., pickup date, drop-off location) is missing from the extracted information dictionary.
     3.2. Compile a list of missing information.
 
-4. Define a function to generate the freight quote:
+5. Define a function to generate the freight quote:
     - Input: Extracted information dictionary.
     - Output: Freight quote.
 
@@ -30,14 +31,14 @@
         4.2.1. Print or log a message indicating the missing information.
         4.2.2. Return None or an error code.
 
-5. Define a function to send feedback to the user:
+6. Define a function to send feedback to the user:
     - Input: Missing information list, Email address of the user.
     - Output: None.
 
     5.1. Compose an email listing the missing information.
     5.2. Send the email to the user's email address.
 
-6. Define a main function to orchestrate the email parsing and freight quoting process:
+7. Define a main function to orchestrate the email parsing and freight quoting process:
     6.1. Retrieve the latest email from the Gmail account.
     6.2. Parse the email content using the parsing function.
     6.3. Check for missing information using the missing information function.
@@ -47,6 +48,6 @@
         6.5.1. Generate the freight quote using the freight quote function.
         6.5.2. Print or display the freight quote to the user.
 
-7. Call the main function to initiate the email parsing and freight quoting process.
+8. Call the main function to initiate the email parsing and freight quoting process.
 
-8. Handle exceptions and errors gracefully throughout the process.
+9. Handle exceptions and errors gracefully throughout the process.
