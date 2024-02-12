@@ -1,7 +1,7 @@
 # add 3 after pip if u have pip3 version
 # Install in terminal -> pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
-
-
+#Added to get full content
+from base64 import urlsafe_b64decode
 import os.path
 
 from google.auth.transport.requests import Request
@@ -41,6 +41,7 @@ def extractEmails(service, label_id):
         # Retrieve and print the content of each message
         for message in messages:
             msg = service.users().messages().get(userId="me", id=message["id"], format='full').execute()
+            
 
             headers = msg["payload"]["headers"]
             # Find the subject header in the email headers
@@ -51,8 +52,19 @@ def extractEmails(service, label_id):
             print(f"From: {from_email}")
             print(f"Date: {date}")
             print("Message ID:", message["id"])
-            # Print snippet of the message
-            print("Message Text:", msg["snippet"])
+            # Print whole content
+            part = msg['payload']
+            body = ""
+            if part['mimeType'] == 'text/plain' or part['mimeType'] == 'text/html':
+                body = urlsafe_b64decode(part['body']['data'].encode('ASCII')).decode('utf-8')
+            else:
+                # Handling multipart/alternative and others
+                for subpart in part.get('parts', []):
+                    if subpart['mimeType'] == 'text/plain' or subpart['mimeType'] == 'text/html':
+                        body = urlsafe_b64decode(subpart['body']['data'].encode('ASCII')).decode('utf-8')
+                        break
+            
+            print("Message Content:", body)
             print("\n")
 
     except HttpError as error:
